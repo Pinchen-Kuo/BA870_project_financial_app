@@ -2,7 +2,12 @@ import streamlit as st
 
 st.set_page_config(page_title="About", layout="wide")
 
+if "ticker" not in st.session_state:
+    st.session_state["ticker"] = "A"
+
 st.title("About this project")
+
+st.markdown(f"### Current ticker: `{st.session_state['ticker']}`")
 
 st.markdown("""
 This app is built for our BA870: Financial & Accounting Analytics project.

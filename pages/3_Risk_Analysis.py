@@ -4,17 +4,11 @@ from pathlib import Path
 
 st.set_page_config(page_title="Risk Analysis", layout="wide")
 
-# =========================================================
-# Shared ticker
-# =========================================================
 if "ticker" not in st.session_state:
     st.session_state["ticker"] = "A"
 
 ticker = st.session_state["ticker"]
 
-# =========================================================
-# Helper
-# =========================================================
 def find_file(filename):
     possible_paths = [
         Path(filename),
@@ -25,7 +19,6 @@ def find_file(filename):
         Path(__file__).parent.parent / "data" / filename,
         Path(__file__).parent.parent / "models" / filename,
     ]
-
     for path in possible_paths:
         if path.exists():
             return path

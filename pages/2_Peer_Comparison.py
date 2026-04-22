@@ -5,17 +5,11 @@ from pathlib import Path
 
 st.set_page_config(page_title="Peer Comparison", layout="wide")
 
-# =========================================================
-# Shared ticker
-# =========================================================
 if "ticker" not in st.session_state:
     st.session_state["ticker"] = "A"
 
 ticker = st.session_state["ticker"]
 
-# =========================================================
-# Helper
-# =========================================================
 def find_file(filename):
     possible_paths = [
         Path(filename),
@@ -26,7 +20,6 @@ def find_file(filename):
         Path(__file__).parent.parent / "data" / filename,
         Path(__file__).parent.parent / "models" / filename,
     ]
-
     for path in possible_paths:
         if path.exists():
             return path
@@ -59,8 +52,7 @@ def compare_direction(metric_name, company_value, peer_value):
         return "Better than peers" if better_when_higher else "More expensive / riskier than peers"
     elif company_value < peer_value:
         return "Worse than peers" if better_when_higher else "Cheaper / more conservative than peers"
-    else:
-        return "In line with peers"
+    return "In line with peers"
 
 def build_peer_comparison_table(company_latest, peer_latest):
     compare_metrics = [
@@ -78,12 +70,11 @@ def build_peer_comparison_table(company_latest, peer_latest):
         if metric in company_latest.index and metric in peer_latest.index:
             company_val = company_latest[metric]
             peer_val = peer_latest[metric]
-            diff = company_val - peer_val
             rows.append({
                 "Metric": metric,
                 "Company": company_val,
                 "Peer Average": peer_val,
-                "Difference": diff,
+                "Difference": company_val - peer_val,
                 "Interpretation": compare_direction(metric, company_val, peer_val)
             })
 

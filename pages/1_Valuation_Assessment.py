@@ -5,17 +5,11 @@ from pathlib import Path
 
 st.set_page_config(page_title="Valuation Assessment", layout="wide")
 
-# =========================================================
-# Shared ticker
-# =========================================================
 if "ticker" not in st.session_state:
     st.session_state["ticker"] = "A"
 
 ticker = st.session_state["ticker"]
 
-# =========================================================
-# Helper
-# =========================================================
 def find_file(filename):
     possible_paths = [
         Path(filename),
@@ -26,23 +20,18 @@ def find_file(filename):
         Path(__file__).parent.parent / "data" / filename,
         Path(__file__).parent.parent / "models" / filename,
     ]
-
     for path in possible_paths:
         if path.exists():
             return path
     return None
 
-# =========================================================
-# Load files
-# =========================================================
 @st.cache_resource
 def load_model():
     model_path = find_file("final_model.pkl")
     if model_path is None:
         raise FileNotFoundError("final_model.pkl not found")
     with open(model_path, "rb") as f:
-        model = pickle.load(f)
-    return model
+        return pickle.load(f)
 
 @st.cache_resource
 def load_feature_cols():
@@ -50,8 +39,7 @@ def load_feature_cols():
     if feature_cols_path is None:
         raise FileNotFoundError("feature_cols.pkl not found")
     with open(feature_cols_path, "rb") as f:
-        feature_cols = pickle.load(f)
-    return feature_cols
+        return pickle.load(f)
 
 @st.cache_data
 def load_input_data():
@@ -60,11 +48,7 @@ def load_input_data():
         raise FileNotFoundError("ticker_history_input.csv not found")
     return pd.read_csv(csv_path)
 
-label_map = {
-    0: "Overvalued",
-    1: "Fairly valued",
-    2: "Undervalued"
-}
+label_map = {0: "Overvalued", 1: "Fairly valued", 2: "Undervalued"}
 
 def summarize_company_result(pred_series):
     avg_class = pred_series.mean()
@@ -72,8 +56,7 @@ def summarize_company_result(pred_series):
         return "Overvalued"
     elif avg_class < 1.33:
         return "Fairly valued"
-    else:
-        return "Undervalued"
+    return "Undervalued"
 
 def get_majority_label(pred_series):
     majority_class = pred_series.mode().iloc[0]
