@@ -50,7 +50,6 @@ def format_ticker_option(ticker_value):
 
 
 # SIDEBAR
-st.sidebar.markdown("---")
 st.sidebar.markdown(f"### Current ticker: `{st.session_state['ticker']}`")
 
 # PAGE
