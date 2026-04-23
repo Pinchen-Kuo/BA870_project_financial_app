@@ -170,7 +170,7 @@ class_summary_df = build_class_summary(pred_df)
 cm = build_confusion_matrix(pred_df)
 top_driver_features_df = build_top_driver_features(coef_df)
 
-st.title("ℹ️ Methodology")
+st.title("Methodology")
 st.caption("How the project moves from raw financial data to valuation outputs and app deployment.")
 
 # 1) PROJECT OVERVIEW
